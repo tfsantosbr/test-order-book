@@ -86,35 +86,12 @@ public class Worker(ILogger<Worker> logger, IOptions<BitstampWebSocketSettings> 
 
     private void DisplayFormattedJson(string tradeString)
     {
-        // try
-        // {
-        //     var parsedJson = JsonNode.Parse(tradeJson);
-        //     var formattedJson = JsonSerializer.Serialize(parsedJson, new JsonSerializerOptions { WriteIndented = true });
-        //     logger.LogInformation("{Json}", formattedJson);
-        // }
-        // catch (Exception ex)
-        // {
-        //     logger.LogError("Erro ao processar JSON: {Message}", ex.Message);
-        // }
-
         try
         {
-            var tradeParsedJson = JsonNode.Parse(tradeString);
-
-            logger.LogInformation("JSON Parsed: {Json}", tradeParsedJson.ToJsonString());
-
             var tradeMessage = JsonSerializer.Deserialize<BitstampTradeResponse>(
-                tradeParsedJson);
+                tradeString);
 
-            logger.LogInformation("Event: {Event}, Channel: {Channel}, Trade ID: {Id}, Amount: {Amount}, Price: {Price}",
-                tradeMessage.Event,
-                tradeMessage.Channel,
-                tradeMessage.Data.Id,
-                tradeMessage.Data.Amount,
-                tradeMessage.Data.Price
-                );
-
-            if (tradeMessage != null)
+            if (tradeMessage != null && IsTradeEvent(tradeMessage.Event))
             {
                 logger.LogInformation("{Trade}", JsonSerializer.Serialize(
                     tradeMessage, jsonSerializerOptionsForLogging));
@@ -125,5 +102,7 @@ public class Worker(ILogger<Worker> logger, IOptions<BitstampWebSocketSettings> 
             logger.LogError("Error processing JSON: {Message}", ex.Message);
         }
     }
+
+    private static bool IsTradeEvent(string eventString) => eventString == "trade";
 }
 
