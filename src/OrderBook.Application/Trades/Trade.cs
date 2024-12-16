@@ -2,31 +2,51 @@
 
 namespace OrderBook.Application.Trades;
 
-public class Trade(
-    long id, string channel, string @event, string timestamp, decimal amount, string amountStr, decimal price,
-    string priceStr, int type, string microtimestamp, long buyOrderId, long sellOrderId)
+public class Trade
 {
-    public long Id { get; set; } = id;
+    public Trade(
+        long id, string channel, string @event, long timestamp, decimal amount, string amountStr, decimal price,
+        string priceStr, int type, long microtimestamp, long buyOrderId, long sellOrderId)
+    {
+        Id = id;
+        Channel = channel;
+        Event = @event;
+        Timestamp = timestamp;
+        Amount = amount;
+        AmountStr = amountStr;
+        Price = price;
+        PriceStr = priceStr;
+        Type = type;
+        Microtimestamp = microtimestamp;
+        BuyOrderId = buyOrderId;
+        SellOrderId = sellOrderId;
+    }
 
-    public string Channel { get; set; } = channel;
+    private Trade()
+    {
+    }
 
-    public string Event { get; set; } = @event;
+    public long Id { get; private set; }
 
-    public string Timestamp { get; set; } = timestamp;
+    public string Channel { get; private set; } = string.Empty;
 
-    public decimal Amount { get; set; } = amount;
+    public string Event { get; private set; } = string.Empty;
 
-    public string AmountStr { get; set; } = amountStr;
+    public long Timestamp { get; private set; }
 
-    public decimal Price { get; set; } = price;
+    public decimal Amount { get; private set; }
 
-    public string PriceStr { get; set; } = priceStr;
+    public string AmountStr { get; private set; } = string.Empty;
 
-    public int Type { get; set; } = type;
+    public decimal Price { get; private set; }
 
-    public string Microtimestamp { get; set; } = microtimestamp;
+    public string PriceStr { get; private set; } = string.Empty;
 
-    public long BuyOrderId { get; set; } = buyOrderId;
+    public int Type { get; private set; }
 
-    public long SellOrderId { get; set; } = sellOrderId;
+    public long Microtimestamp { get; private set; }
+
+    public long BuyOrderId { get; private set; }
+
+    public long SellOrderId { get; private set; }
 }

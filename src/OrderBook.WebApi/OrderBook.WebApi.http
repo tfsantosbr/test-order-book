@@ -1,0 +1,6 @@
+@hostUrl = http://localhost:5223
+
+GET {{hostUrl}}/v1/trades/statistics/
+Accept: application/json
+
+###

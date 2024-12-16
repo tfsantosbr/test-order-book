@@ -76,7 +76,7 @@ public class BitstampTradeListener(
             if (result.MessageType == WebSocketMessageType.Close)
             {
                 await clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, stoppingToken);
-                logger.LogInformation("Connectio closed by server.");
+                logger.LogInformation("Connection closed by server.");
 
                 return;
             }
@@ -111,13 +111,13 @@ public class BitstampTradeListener(
             id: tradeMessage.Data.Id,
             channel: tradeMessage.Channel,
             @event: tradeMessage.Event,
-            timestamp: tradeMessage.Data.Timestamp,
+            timestamp: long.Parse(tradeMessage.Data.Timestamp),
             amount: tradeMessage.Data.Amount,
             amountStr: tradeMessage.Data.AmountStr,
             price: tradeMessage.Data.Price,
             priceStr: tradeMessage.Data.PriceStr,
             type: tradeMessage.Data.Type,
-            microtimestamp: tradeMessage.Data.Microtimestamp,
+            microtimestamp: long.Parse(tradeMessage.Data.Microtimestamp),
             buyOrderId: tradeMessage.Data.BuyOrderId,
             sellOrderId: tradeMessage.Data.SellOrderId
         );
@@ -125,6 +125,6 @@ public class BitstampTradeListener(
         await tradeRepository.AddAsync(trade, stoppingToken);
     }
 
-    private static bool IsTradeEvent(string eventString) => eventString == "trade";
+    private static bool IsTradeEvent(string tradeEvent) => tradeEvent == "trade";
 }
 
