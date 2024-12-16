@@ -11,9 +11,8 @@ public class GetTradeStatisticsQueryHandler(IMongoDatabase mongoDatabase) : IQue
 
     public async Task<TradeStatisticsModel> HandleAsync(GetTradeStatisticsQuery query, CancellationToken cancellationToken = default)
     {
-        var currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        var fiveSecondsAgo = currentTime - 5000;
-
+        var fiveSecondsAgo = DateTimeOffset.UtcNow.AddSeconds(-5).ToUnixTimeSeconds();
+        
         var pipeline = _tradesCollection.Aggregate()
             .Group(trade => trade.Channel, g => new
             {
