@@ -1,19 +1,21 @@
+using Microsoft.Extensions.Options;
+using OrderBook.Application.Trades;
+using OrderBook.Application.Trades.Repositories;
+using OrderBook.Worker.BitstampClient;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using Microsoft.Extensions.Options;
-using OrderBook.Worker.BitstampClient;
 
-namespace OrderBook.Worker;
+namespace OrderBook.Worker.Workers;
 
-public class Worker(ILogger<Worker> logger, IOptions<BitstampWebSocketSettings> options) : BackgroundService
+public class BitstampTradeListener(
+    ILogger<BitstampTradeListener> logger, IOptions<BitstampWebSocketSettings> options,
+    ITradeRepository tradeRepository) : BackgroundService
 {
     // Fields
 
     private readonly BitstampWebSocketSettings settings = options.Value;
     private readonly JsonSerializerOptions defaultJsonSerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-    private readonly JsonSerializerOptions jsonSerializerOptionsForLogging = new() { WriteIndented = true };
 
     // Implementations
 
@@ -79,28 +81,48 @@ public class Worker(ILogger<Worker> logger, IOptions<BitstampWebSocketSettings> 
                 return;
             }
 
-            var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-            DisplayFormattedJson(message);
+            var tradeString = Encoding.UTF8.GetString(buffer, 0, result.Count);
+
+            try
+            {
+                var tradeMessage = JsonSerializer.Deserialize<BitstampTradeResponse>(tradeString);
+
+                if (tradeMessage != null && IsTradeEvent(tradeMessage.Event))
+                {
+                    await SaveMessageInDatabaseAsync(tradeMessage, stoppingToken);
+
+                    logger.LogInformation("Trade {TradeId} saved in database with success", tradeMessage.Data.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error processing JSON: {Message}", ex.Message);
+
+                throw;
+            }
+
+
         }
     }
 
-    private void DisplayFormattedJson(string tradeString)
+    private async Task SaveMessageInDatabaseAsync(BitstampTradeResponse tradeMessage, CancellationToken stoppingToken)
     {
-        try
-        {
-            var tradeMessage = JsonSerializer.Deserialize<BitstampTradeResponse>(
-                tradeString);
+        var trade = new Trade(
+            id: tradeMessage.Data.Id,
+            channel: tradeMessage.Channel,
+            @event: tradeMessage.Event,
+            timestamp: tradeMessage.Data.Timestamp,
+            amount: tradeMessage.Data.Amount,
+            amountStr: tradeMessage.Data.AmountStr,
+            price: tradeMessage.Data.Price,
+            priceStr: tradeMessage.Data.PriceStr,
+            type: tradeMessage.Data.Type,
+            microtimestamp: tradeMessage.Data.Microtimestamp,
+            buyOrderId: tradeMessage.Data.BuyOrderId,
+            sellOrderId: tradeMessage.Data.SellOrderId
+        );
 
-            if (tradeMessage != null && IsTradeEvent(tradeMessage.Event))
-            {
-                logger.LogInformation("{Trade}", JsonSerializer.Serialize(
-                    tradeMessage, jsonSerializerOptionsForLogging));
-            }
-        }
-        catch (Exception ex)
-        {
-            logger.LogError("Error processing JSON: {Message}", ex.Message);
-        }
+        await tradeRepository.AddAsync(trade, stoppingToken);
     }
 
     private static bool IsTradeEvent(string eventString) => eventString == "trade";

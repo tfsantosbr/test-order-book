@@ -17,7 +17,7 @@ public record BitstampTradeResponse
 public record BitstampTradeResponseData
 {
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     [JsonPropertyName("timestamp")]
     public string Timestamp { get; set; } = string.Empty;
