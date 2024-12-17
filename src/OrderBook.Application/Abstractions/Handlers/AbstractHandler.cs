@@ -7,14 +7,14 @@ public abstract class AbstractHandler
     protected static Result SuccessResult() =>
         Result.Success();
 
-    protected static Result ErrorResult(Error[] notifications) =>
-        Result.Error(notifications);
+    protected static Result ErrorResult(Error[] errors) =>
+        Result.Error(errors);
 
-    protected static Result ErrorResult(Error notification) =>
-        Result.Error(notification);
+    protected static Result ErrorResult(Error error) =>
+        Result.Error(error);
 
-    protected static Result NotFoundResult(Error notification) =>
-        Result.NotFound(notification);
+    protected static Result NotFoundResult(Error error) =>
+        Result.NotFound(error);
 }
 
 public abstract class AbstractHandler<TData> where TData : class
@@ -22,12 +22,12 @@ public abstract class AbstractHandler<TData> where TData : class
     protected Result<TData> SuccessResult(TData data) =>
         Result<TData>.Success(data);
 
-    protected Result<TData> ErrorResult(Error[] notifications) =>
-        Result<TData>.Error(notifications);
+    protected Result<TData> ErrorResult(Error[] errors) =>
+        Result<TData>.Error(errors);
 
-    protected Result<TData> ErrorResult(Error notification) =>
-        Result<TData>.Error(notification);
+    protected Result<TData> ErrorResult(Error error) =>
+        Result<TData>.Error(error);
 
-    protected Result<TData> NotFoundResult(Error notification) =>
-        Result<TData>.NotFound(notification);
+    protected Result<TData> NotFoundResult(Error error) =>
+        Result<TData>.NotFound(error);
 }
