@@ -5,22 +5,42 @@
 GET {{hostUrl}}/v1/trades/statistics/
 Accept: application/json
 
-### Simular Compra de 100 BTCUSD
+### Simular Compra de BTCUSD
 POST {{hostUrl}}/v1/simulations
 Content-Type: application/json
 
 {
-    "instrument": "live_trades_btcusd",
-    "operation": "buy",
+    "instrument": "btcusd",
+    "operation": 1,
     "quantity": 0.04
 }
 
-### Simular Venda de 50 BTCUSD
+### Simular Venda de BTCUSD
 POST {{hostUrl}}/v1/simulations
 Content-Type: application/json
 
 {
-    "instrument": "live_trades_btcusd",
-    "operation": "sell",
+    "instrument": "btcusd",
+    "operation": 2,
     "quantity": 0.02
+}
+
+### Simular Compra de ETHUSD
+POST {{hostUrl}}/v1/simulations
+Content-Type: application/json
+
+{
+    "instrument": "ethusd",
+    "operation": 1,
+    "quantity": 0.04
+}
+
+### Simular Venda de ETHUSD
+POST {{hostUrl}}/v1/simulations
+Content-Type: application/json
+
+{
+    "instrument": "ethusd",
+    "operation": 2,
+    "quantity": 0.04
 }

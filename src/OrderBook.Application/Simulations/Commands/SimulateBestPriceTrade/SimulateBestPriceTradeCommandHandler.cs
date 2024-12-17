@@ -1,5 +1,6 @@
 ﻿using OrderBook.Application.Abstractions.Handlers;
 using OrderBook.Application.Abstractions.Results;
+using OrderBook.Application.Simulations.Enums;
 using OrderBook.Application.Simulations.Repositories;
 using OrderBook.Application.Trades;
 using OrderBook.Application.Trades.Constants;
@@ -15,10 +16,10 @@ public class SimulateBestPriceTradeCommandHandler(ITradeRepository tradeReposito
     public async Task<Result<SimulateBestPriceTradeResult>> HandleAsync(
         SimulateBestPriceTradeCommand command, CancellationToken cancellationToken = default)
     {
-        return command.Operation.ToLower() switch
+        return command.Operation switch
         {
-            "buy" => await SimulateBuyAsync(command, cancellationToken),
-            "sell" => await SimulateSellAsync(command, cancellationToken),
+            OperationType.Buy => await SimulateBuyAsync(command, cancellationToken),
+            OperationType.Sell => await SimulateSellAsync(command, cancellationToken),
             _ => throw new ArgumentException("Invalid operation type. Must be 'buy' or 'sell'.")
         };
     }

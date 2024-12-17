@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBook.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBook.WebApi", "src\OrderBook.WebApi\OrderBook.WebApi.csproj", "{8FD01AF0-C417-484D-9912-4137F8994A56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A4993C6A-7F71-4334-AB8A-21A07F6E5CEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBook.Application.Tests", "tests\OrderBook.Tests\OrderBook.Application.Tests\OrderBook.Application.Tests.csproj", "{A43CE754-AB98-4D71-BA6E-D1429A4945A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,10 @@ Global
 		{8FD01AF0-C417-484D-9912-4137F8994A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FD01AF0-C417-484D-9912-4137F8994A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FD01AF0-C417-484D-9912-4137F8994A56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A43CE754-AB98-4D71-BA6E-D1429A4945A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A43CE754-AB98-4D71-BA6E-D1429A4945A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A43CE754-AB98-4D71-BA6E-D1429A4945A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A43CE754-AB98-4D71-BA6E-D1429A4945A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,7 @@ Global
 		{1D4EC1E3-8B1F-4CF2-B9A1-B6BD5155CB1A} = {11D21BF6-5851-410B-8BBA-79C8626B02DB}
 		{E50F5E7F-6753-4CE8-9405-0DF370CD3039} = {11D21BF6-5851-410B-8BBA-79C8626B02DB}
 		{8FD01AF0-C417-484D-9912-4137F8994A56} = {11D21BF6-5851-410B-8BBA-79C8626B02DB}
+		{A43CE754-AB98-4D71-BA6E-D1429A4945A2} = {A4993C6A-7F71-4334-AB8A-21A07F6E5CEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0134779-0CD6-46E9-9B02-782D2BA1AE88}
