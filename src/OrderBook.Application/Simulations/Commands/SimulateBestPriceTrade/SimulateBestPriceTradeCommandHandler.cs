@@ -1,12 +1,13 @@
 ﻿using OrderBook.Application.Abstractions.Handlers;
 using OrderBook.Application.Abstractions.Results;
+using OrderBook.Application.Simulations.Repositories;
 using OrderBook.Application.Trades;
 using OrderBook.Application.Trades.Constants;
 using OrderBook.Application.Trades.Repositories;
 
 namespace OrderBook.Application.Simulations.Commands.SimulateBestPriceTrade;
 
-public class SimulateBestPriceTradeCommandHandler(ITradeRepository tradeRepository)
+public class SimulateBestPriceTradeCommandHandler(ITradeRepository tradeRepository, ISimulationRepository simulationRepository)
     : AbstractHandler<SimulateBestPriceTradeResult>, ICommandHandler<SimulateBestPriceTradeCommand, SimulateBestPriceTradeResult>
 {
     // Implementations
@@ -28,17 +29,17 @@ public class SimulateBestPriceTradeCommandHandler(ITradeRepository tradeReposito
     {
         var trades = await tradeRepository.GetTradesByInstrumentForSellAsync(command.Instrument, cancellationToken);
 
-        return await SimulateTradeAsync(command, trades);
+        return await SimulateTradeAsync(command, trades, cancellationToken);
     }
 
     private async Task<Result<SimulateBestPriceTradeResult>> SimulateSellAsync(SimulateBestPriceTradeCommand command, CancellationToken cancellationToken)
     {
         var trades = await tradeRepository.GetTradesByInstrumentForBuyAsync(command.Instrument, cancellationToken);
 
-        return await SimulateTradeAsync(command, trades);
+        return await SimulateTradeAsync(command, trades, cancellationToken);
     }
 
-    private async Task<Result<SimulateBestPriceTradeResult>> SimulateTradeAsync(SimulateBestPriceTradeCommand command, IEnumerable<Trade> trades)
+    private async Task<Result<SimulateBestPriceTradeResult>> SimulateTradeAsync(SimulateBestPriceTradeCommand command, IEnumerable<Trade> trades, CancellationToken cancellationToken)
     {
         if (!trades.Any())
             return ErrorResult(TradeErrors.TradesNotFound());
@@ -72,8 +73,7 @@ public class SimulateBestPriceTradeCommandHandler(ITradeRepository tradeReposito
         if (totalQuantity < command.Quantity)
             return ErrorResult(TradeErrors.NotEnoughTradesAvailable());
 
-        var simulateBestPriceTradeResult = new SimulateBestPriceTradeResult(
-            Guid.NewGuid(), 
+        var simulation = new Simulation(
             command.Instrument, 
             command.Operation, 
             command.Quantity, 
@@ -81,7 +81,9 @@ public class SimulateBestPriceTradeCommandHandler(ITradeRepository tradeReposito
             tradesUsed
             );
 
-        // TODO: salvar resultado
+        await simulationRepository.Add(simulation, cancellationToken);
+
+        var simulateBestPriceTradeResult = SimulateBestPriceTradeResult.FromSimulation(simulation);
 
         return Result.Success(simulateBestPriceTradeResult);
     }

@@ -3,10 +3,23 @@
 namespace OrderBook.Application.Simulations.Commands.SimulateBestPriceTrade;
 
 public record SimulateBestPriceTradeResult(
-    Guid Id, 
-    string Instrument, 
-    string Operation, 
-    decimal RequestedQuantity, 
-    decimal TotalCost, 
+    Guid Id,
+    string Instrument,
+    string Operation,
+    decimal RequestedQuantity,
+    decimal TotalCost,
     IEnumerable<Trade> TradesUsed
-    );
+    )
+{
+    public static SimulateBestPriceTradeResult FromSimulation(Simulation simulation)
+    {
+        return new SimulateBestPriceTradeResult(
+            simulation.Id,
+            simulation.Instrument,
+            simulation.Operation,
+            simulation.RequestedQuantity,
+            simulation.TotalCost,
+            simulation.TradesUsed
+        );
+    }
+}

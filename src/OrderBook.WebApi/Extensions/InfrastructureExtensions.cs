@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using OrderBook.Application.Simulations.Repositories;
 using OrderBook.Application.Trades.Repositories;
 using OrderBook.Infrastructure.Databases.MongoDb;
 using OrderBook.Infrastructure.Databases.Repositories;
@@ -10,6 +11,7 @@ public static class InfrastructureExtensions
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddTransient<ITradeRepository, TradeRepository>();
+        services.AddTransient<ISimulationRepository, SimulationRepository>();
     }
 
     public static void AddMongoDatabase(this IServiceCollection services, IConfiguration configuration)
