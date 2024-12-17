@@ -1,6 +1,26 @@
 @hostUrl = http://localhost:5223
 
+
+### Retornar Estatísticas
 GET {{hostUrl}}/v1/trades/statistics/
 Accept: application/json
 
-###
+### Simular Compra de 100 BTCUSD
+POST {{hostUrl}}/v1/simulations
+Content-Type: application/json
+
+{
+    "instrument": "live_trades_btcusd",
+    "operation": "buy",
+    "quantity": 0.04
+}
+
+### Simular Venda de 50 BTCUSD
+POST {{hostUrl}}/v1/simulations
+Content-Type: application/json
+
+{
+    "instrument": "live_trades_btcusd",
+    "operation": "sell",
+    "quantity": 5
+}
