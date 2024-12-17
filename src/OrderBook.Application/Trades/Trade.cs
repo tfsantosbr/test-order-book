@@ -5,18 +5,18 @@ namespace OrderBook.Application.Trades;
 public class Trade
 {
     public Trade(
-        long id, string channel, string @event, long timestamp, decimal amount, string amountStr, decimal price,
+        long id, string channel, string tradeEvent, long timestamp, decimal amount, string amountStr, decimal price,
         string priceStr, int type, long microtimestamp, long buyOrderId, long sellOrderId)
     {
         Id = id;
         Channel = channel;
-        Event = @event;
+        Event = tradeEvent;
         Timestamp = timestamp;
         Amount = amount;
         AmountStr = amountStr;
         Price = price;
         PriceStr = priceStr;
-        Type = type;
+        TradeType = type;
         Microtimestamp = microtimestamp;
         BuyOrderId = buyOrderId;
         SellOrderId = sellOrderId;
@@ -42,7 +42,7 @@ public class Trade
 
     public string PriceStr { get; private set; } = string.Empty;
 
-    public int Type { get; private set; }
+    public int TradeType { get; private set; }
 
     public long Microtimestamp { get; private set; }
 
