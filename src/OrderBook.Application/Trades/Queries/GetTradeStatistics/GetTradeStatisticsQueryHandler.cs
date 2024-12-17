@@ -1,18 +1,18 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using OrderBook.Application.Abstractions.Handlers;
-using OrderBook.Application.Trades.Models;
+using OrderBook.Application.Abstractions.Results;
 
-namespace OrderBook.Application.Trades.Queries;
+namespace OrderBook.Application.Trades.Queries.GetTradeStatistics;
 
-public class GetTradeStatisticsQueryHandler(IMongoDatabase mongoDatabase) : IQueryHandler<GetTradeStatisticsQuery, TradeStatisticsModel>
+public class GetTradeStatisticsQueryHandler(IMongoDatabase mongoDatabase) : IQueryHandler<GetTradeStatisticsQuery, GetTradeStatisticsQueryResult>
 {
     private readonly IMongoCollection<Trade> _tradesCollection = mongoDatabase.GetCollection<Trade>("Trades");
 
-    public async Task<TradeStatisticsModel> HandleAsync(GetTradeStatisticsQuery query, CancellationToken cancellationToken = default)
+    public async Task<Result<GetTradeStatisticsQueryResult>> HandleAsync(GetTradeStatisticsQuery query, CancellationToken cancellationToken = default)
     {
         var fiveSecondsAgo = DateTimeOffset.UtcNow.AddSeconds(-5).ToUnixTimeSeconds();
-        
+
         var pipeline = _tradesCollection.Aggregate()
             .Group(trade => trade.Channel, g => new
             {
@@ -23,7 +23,7 @@ public class GetTradeStatisticsQueryHandler(IMongoDatabase mongoDatabase) : IQue
                 AverageAmount = g.Average(t => t.Amount),
                 TradesInLast5Sec = g.Where(t => t.Timestamp >= fiveSecondsAgo).Select(t => t.Price)
             })
-            .Project(g => new TradeStatisticsModelItem
+            .Project(g => new GetTradeStatisticsQueryResultItem
             {
                 Channel = g.Channel,
                 MaxPrice = g.MaxPrice,
@@ -34,7 +34,8 @@ public class GetTradeStatisticsQueryHandler(IMongoDatabase mongoDatabase) : IQue
             });
 
         var tradeStatisticsModelItems = await pipeline.ToListAsync(cancellationToken);
+        var tradeStatisticsModel = new GetTradeStatisticsQueryResult { TradeStats = tradeStatisticsModelItems };
 
-        return new TradeStatisticsModel { TradeStats = tradeStatisticsModelItems };
+        return Result.Success(tradeStatisticsModel);
     }
 }

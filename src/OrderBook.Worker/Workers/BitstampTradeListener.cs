@@ -110,7 +110,7 @@ public class BitstampTradeListener(
         var trade = new Trade(
             id: tradeMessage.Data.Id,
             channel: tradeMessage.Channel,
-            @event: tradeMessage.Event,
+            tradeEvent: tradeMessage.Event,
             timestamp: long.Parse(tradeMessage.Data.Timestamp),
             amount: tradeMessage.Data.Amount,
             amountStr: tradeMessage.Data.AmountStr,

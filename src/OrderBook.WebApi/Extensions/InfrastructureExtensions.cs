@@ -1,10 +1,17 @@
 ﻿using MongoDB.Driver;
+using OrderBook.Application.Trades.Repositories;
 using OrderBook.Infrastructure.Databases.MongoDb;
+using OrderBook.Infrastructure.Databases.Repositories;
 
 namespace OrderBook.WebApi.Extensions;
 
 public static class InfrastructureExtensions
 {
+    public static void AddRepositories(this IServiceCollection services)
+    {
+        services.AddTransient<ITradeRepository, TradeRepository>();
+    }
+
     public static void AddMongoDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(provider =>

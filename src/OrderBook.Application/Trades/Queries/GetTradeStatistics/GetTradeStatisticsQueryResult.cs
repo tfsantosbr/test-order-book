@@ -1,11 +1,11 @@
-﻿namespace OrderBook.Application.Trades.Models;
+﻿namespace OrderBook.Application.Trades.Queries.GetTradeStatistics;
 
-public record TradeStatisticsModel
+public record GetTradeStatisticsQueryResult
 {
-    public List<TradeStatisticsModelItem> TradeStats { get; set; } = [];
+    public List<GetTradeStatisticsQueryResultItem> TradeStats { get; set; } = [];
 }
 
-public record TradeStatisticsModelItem
+public record GetTradeStatisticsQueryResultItem
 {
     public string Channel { get; set; } = string.Empty;
     public decimal MaxPrice { get; set; }
