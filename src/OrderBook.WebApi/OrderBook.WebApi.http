@@ -1,4 +1,4 @@
-@hostUrl = http://localhost:5223
+@hostUrl = http://localhost:5000
 
 
 ### Retornar Estatísticas
@@ -12,7 +12,7 @@ Content-Type: application/json
 {
     "instrument": "btcusd",
     "operation": 1,
-    "quantity": 0.04
+    "quantity": 0.004
 }
 
 ### Simular Venda de BTCUSD
@@ -22,7 +22,7 @@ Content-Type: application/json
 {
     "instrument": "btcusd",
     "operation": 2,
-    "quantity": 0.02
+    "quantity": 0.002
 }
 
 ### Simular Compra de ETHUSD
@@ -32,7 +32,7 @@ Content-Type: application/json
 {
     "instrument": "ethusd",
     "operation": 1,
-    "quantity": 0.04
+    "quantity": 0.004
 }
 
 ### Simular Venda de ETHUSD
@@ -42,5 +42,5 @@ Content-Type: application/json
 {
     "instrument": "ethusd",
     "operation": 2,
-    "quantity": 0.04
+    "quantity": 0.004
 }

@@ -5,7 +5,7 @@ using OrderBook.Infrastructure.Databases.MongoDb;
 using OrderBook.Infrastructure.Databases.Repositories;
 using OrderBook.Worker.Workers;
 
-namespace OrderBook.WebApi.Extensions;
+namespace OrderBook.Worker.Extensions;
 
 public static class InfrastructureExtensions
 {

@@ -10,5 +10,31 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  webapi:
+    image: order-book-webapi:latest
+    container_name: webapi
+    build:
+      context: .
+      dockerfile: ./src/OrderBook.WebApi/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MONGODBSETTINGS__CONNECTIONSTRING=mongodb://root:root@mongodb:27017
+    depends_on:
+      - mongodb
+
+  worker:
+    image: order-book-worker:latest
+    container_name: worker
+    build:
+      context: .
+      dockerfile: ./src/OrderBook.Worker/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MONGODBSETTINGS__CONNECTIONSTRING=mongodb://root:root@mongodb:27017
+    depends_on:
+      - mongodb
+
 volumes:
   mongo-data:

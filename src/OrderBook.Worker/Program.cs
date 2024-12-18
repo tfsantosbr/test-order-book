@@ -1,5 +1,5 @@
-using OrderBook.WebApi.Extensions;
 using OrderBook.Worker.BitstampClient;
+using OrderBook.Worker.Extensions;
 
 var builder = Host.CreateApplicationBuilder(args);
 var configuration = builder.Configuration;

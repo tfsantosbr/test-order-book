@@ -5,15 +5,15 @@ using System.Text.Json;
 namespace OrderBook.Worker.Workers;
 
 public class GetTradeStatisticsListener(
-    ILogger<BitstampTradeListener> logger, 
+    ILogger<BitstampTradeListener> logger,
     IQueryHandler<GetTradeStatisticsQuery, GetTradeStatisticsQueryResult> queryHandler) : BackgroundService
 {
     // Fields
 
-    private readonly JsonSerializerOptions defaultJsonSerializerOptions = new() 
-    { 
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase, 
-        WriteIndented = true 
+    private readonly JsonSerializerOptions defaultJsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = true
     };
 
     // Implementations

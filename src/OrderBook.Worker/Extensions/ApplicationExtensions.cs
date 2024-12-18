@@ -1,9 +1,7 @@
-﻿using FluentValidation;
-using OrderBook.Application.Abstractions.Handlers;
-using OrderBook.Application.Simulations.Commands.SimulateBestPriceTrade;
+﻿using OrderBook.Application.Abstractions.Handlers;
 using OrderBook.Application.Trades.Queries.GetTradeStatistics;
 
-namespace OrderBook.WebApi.Extensions;
+namespace OrderBook.Worker.Extensions;
 
 public static class ApplicationExtensions
 {
