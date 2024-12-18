@@ -16,6 +16,13 @@ You will need [Docker Desktop](https://docs.docker.com/desktop/install/windows-i
 docker-compose up -d --build
 ```
 
+IMPORTANT: To see only the **logs for trade statistics**, use the following command:
+
+```bash
+docker-compose up -d --build
+docker-compose up worker
+```
+
 ## Running API Locally
 
 You will need [.NET CLI](https://dotnet.microsoft.com/en-us/download) to run this commands
