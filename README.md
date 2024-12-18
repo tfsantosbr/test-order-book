@@ -1,12 +1,4 @@
-# Companies API
-
-## Patterns Used In This Application
-
-- [Domain Driven Design](https://balta.io/cursos/modelando-dominios-ricos)
-- [Feature Folder](https://github.com/tfsantosbr/dotnet-folder-by-feature-structure)
-- [CQRS](https://balta.io/blog/aspnet-core-cqrs-mediator)
-- [Repository](https://learning.eximia.co/videos/repositorios/)
-- [Notification](https://balta.io/blog/exception-vs-domain-notification)
+# Order Book
 
 ## Running With Docker-Compose
 
@@ -44,4 +36,12 @@ dotnet test
 
 ## Smoke Tests
 
-The smoke test can be found in [OrderBook.WebApi.http](./src/OrderBook.WebApi/OrderBook.WebApi.http) file.
+- The smoke test can be found in [OrderBook.WebApi.http](./src/OrderBook.WebApi/OrderBook.WebApi.http) file.
+
+## Patterns Used In This Application
+
+- [Domain Driven Design](https://balta.io/cursos/modelando-dominios-ricos)
+- [Feature Folder](https://github.com/tfsantosbr/dotnet-folder-by-feature-structure)
+- [CQRS](https://balta.io/blog/aspnet-core-cqrs-mediator)
+- [Repository](https://learning.eximia.co/videos/repositorios/)
+- [Notification](https://balta.io/blog/exception-vs-domain-notification)
